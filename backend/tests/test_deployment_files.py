@@ -28,3 +28,16 @@ def test_compose_has_database_healthcheck_and_backend_db_hostname():
     assert "healthcheck" in compose["services"]["db"]
     assert compose["services"]["backend"]["environment"]["DATABASE_HOSTNAME"] == "db"
     assert compose["services"]["backend"]["depends_on"]["db"]["condition"] == "service_healthy"
+
+
+def test_ci_database_name_matches_test_database_name():
+    workflow = yaml.safe_load(
+        (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+    )
+
+    backend_env = workflow["jobs"]["backend"]["env"]
+    postgres_env = workflow["jobs"]["backend"]["services"]["postgres"]["env"]
+
+    assert backend_env["DATABASE_NAME"] == "student_assessment_test"
+    assert backend_env["TEST_DATABASE_NAME"] == backend_env["DATABASE_NAME"]
+    assert postgres_env["POSTGRES_DB"] == backend_env["DATABASE_NAME"]

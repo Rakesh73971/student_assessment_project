@@ -1,4 +1,5 @@
 """Pytest configuration and fixtures."""
+import os
 import pytest
 import sys
 from pathlib import Path
@@ -18,13 +19,22 @@ from app.services.auth_services import AuthService
 from app.core.config import settings
 
 
+if settings.database_hostname.endswith(".supabase.co") and not os.getenv("TEST_DATABASE_NAME"):
+    pytest.exit(
+        "Refusing to run tests against Supabase without TEST_DATABASE_NAME. "
+        "Create a separate test database or run tests through GitHub Actions/local Postgres.",
+        returncode=2,
+    )
+
+TEST_DATABASE_NAME = os.getenv("TEST_DATABASE_NAME", settings.database_name)
+
 SQLALCHEMY_TEST_DATABASE_URL = URL.create(
     "postgresql+psycopg2",
     username=settings.database_username,
     password=settings.database_password,
     host=settings.database_hostname,
     port=settings.database_port,
-    database=f"{settings.database_name}_test",
+    database=TEST_DATABASE_NAME,
 )
 
 engine = create_engine(
