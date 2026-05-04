@@ -1,0 +1,86 @@
+.register-page {
+  min-height: 80vh;
+  padding: 2rem 0;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 450px;
+  padding: 2.5rem;
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.register-title {
+  margin-bottom: 0.5rem;
+}
+
+.register-error {
+  gap: 0.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  font-size: 0.875rem;
+}
+
+.register-role-options {
+  display: flex;
+  gap: 1rem;
+}
+
+.register-role-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.75rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  flex: 1;
+  background: transparent;
+  transition: all var(--transition-fast);
+}
+
+.register-role-option.is-selected {
+  border-color: var(--accent-primary);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.register-role-input {
+  display: none;
+}
+
+.register-role-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0 auto;
+  color: var(--text-secondary);
+}
+
+.register-role-option.is-selected .register-role-label {
+  color: var(--accent-primary);
+}
+
+.register-submit {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem;
+}
+
+.register-footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.register-link {
+  color: var(--accent-primary);
+  font-weight: 500;
+}
