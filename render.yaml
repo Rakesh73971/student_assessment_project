@@ -3,6 +3,7 @@ services:
   - type: web
     name: student-assessment-api
     env: python
+    plan: free
     region: oregon # or any other region
     buildCommand: "cd backend && pip install -r requirements.txt"
     startCommand: "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
