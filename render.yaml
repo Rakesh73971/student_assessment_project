@@ -1,0 +1,47 @@
+services:
+  # Backend API Service
+  - type: web
+    name: student-assessment-api
+    env: python
+    region: oregon # or any other region
+    buildCommand: "cd backend && pip install -r requirements.txt"
+    startCommand: "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      # Provide these securely in the Render Dashboard
+      - key: DATABASE_HOSTNAME
+        sync: false
+      - key: DATABASE_PORT
+        sync: false
+      - key: DATABASE_NAME
+        sync: false
+      - key: DATABASE_USERNAME
+        sync: false
+      - key: DATABASE_PASSWORD
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false # Set this to ["https://student-assessment-ui.onrender.com"] once your frontend is created
+      - key: DEBUG_MODE
+        value: "False"
+      - key: ENVIRONMENT
+        value: "production"
+
+  # Frontend React App (Static Site)
+  - type: web
+    name: student-assessment-ui
+    env: static
+    region: oregon
+    buildCommand: "cd frontend && npm install && npm run build"
+    staticPublishPath: "./frontend/dist"
+    envVars:
+      # Automatically points the frontend to the backend's URL
+      - key: VITE_API_BASE_URL
+        fromService:
+          type: web
+          name: student-assessment-api
+          envVarKey: RENDER_EXTERNAL_URL
